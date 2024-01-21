@@ -1,0 +1,13 @@
+# Javascript node_modules
+./node_modules
+
+# API keys
+.env
+
+# webstorm idea
+.idea/
+
+package-lock.json
+
+dist
+coverage
