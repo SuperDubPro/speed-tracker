@@ -15,7 +15,7 @@ describe('api', () => {
     }
     // When
     const response = await request(app)
-      .post('tracks')
+      .post('/tracks')
       .send(track)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
@@ -34,7 +34,7 @@ describe('api', () => {
     }
     // When
     const response = await request(app)
-      .post('tracks')
+      .post('/users')
       .send(user)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
