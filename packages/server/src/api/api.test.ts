@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { app } from '../app'
+import { app } from '../server'
 import { TrackTypes, type PostTrack, type PostUser, UserRoles } from '../types'
 
 describe('api', () => {

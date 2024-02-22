@@ -1,11 +1,14 @@
 {
   "name": "speed-tracker",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*",
+    "packages/@speed-tracker/client"
+  ],
   "version": "1.0.0",
   "description": "track your speed on track =)",
   "scripts": {
     "build": "tsc",
-    "start": "npm run start --workspaces server",
+    "start": "npm run start --workspace @speed-tracker/server",
     "test:unit": "jest --config=jest.config.js"
   },
   "repository": {

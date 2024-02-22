@@ -1,14 +1,8 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-      "rootDir": "src",
+      "rootDir": "./",
       "outDir": "dist",
       "paths": {}
     },
-    // "references": [
-    //   {
-    //     "path": "../server"
-    //   }
-    // ]
   }
-  

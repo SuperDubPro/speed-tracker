@@ -1,10 +1,13 @@
 {
-  "name": "@speed-tracker/client",
+  "name": "@speed-tracker/server-db",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
+  },
+  "dependencies": {
+    "mongoose": "^8.1.3"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -15,8 +18,10 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react": "^7.33.2",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
     "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "keywords": [],
