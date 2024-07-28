@@ -1,10 +1,28 @@
 import mongoose from 'mongoose'
-import { type IdType, type UserTrackGrade } from '@speed-tracker/common'
-import { userTrackGradeModel } from './models'
-import { type MongooseModel, type MongooseSaveModel } from '@types'
+import {
+  userModel,
+  userTrackGradeModel,
+  trackModel,
+  trackConfigModel,
+  trackPhotoModel,
+} from './models'
 
 class ServerDB {
   private db: typeof mongoose | null = null
+
+  user: typeof userModel
+  userTrackGrade: typeof userTrackGradeModel
+  track: typeof trackModel
+  trackConfig: typeof trackConfigModel
+  trackPhoto: typeof trackPhotoModel
+
+  constructor() {
+    this.user = userModel
+    this.userTrackGrade = userTrackGradeModel
+    this.track = trackModel
+    this.trackConfig = trackConfigModel
+    this.trackPhoto = trackPhotoModel
+  }
 
   async connect(uri: string): Promise<typeof mongoose> {
     try {
@@ -22,29 +40,6 @@ class ServerDB {
     } catch (error) {
       console.error('DB disconnect error\n', error)
     }
-  }
-
-  async createUserTrackGrade(
-    model: UserTrackGrade
-  ): Promise<MongooseSaveModel<UserTrackGrade>> {
-    return await userTrackGradeModel.create(model)
-  }
-
-  async readUserTrackGrade(id: IdType): Promise<MongooseModel<UserTrackGrade>> {
-    return await userTrackGradeModel.read(id)
-  }
-
-  async updateUserTrackGrade(
-    id: IdType,
-    update: Omit<UserTrackGrade, 'gradeId' | 'userId'>
-  ): Promise<MongooseModel<UserTrackGrade>> {
-    return await userTrackGradeModel.update(id, update)
-  }
-
-  async deleteUserTrackGrade(
-    id: IdType
-  ): Promise<MongooseModel<UserTrackGrade>> {
-    return await userTrackGradeModel.delete(id)
   }
 }
 

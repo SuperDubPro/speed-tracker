@@ -1,15 +1,16 @@
-import { type UserTrackGrade } from '@speed-tracker/common'
+import { type Create, type UserTrackGrade } from '@speed-tracker/common'
 import {
   connectDBForTesting,
   disconnectDBForTesting,
   dropCollection,
 } from '@utils'
-import { DbModel } from '@types'
+import { DbModelName } from '@types'
 
 import { userTrackGradeModel } from '.'
 
-const userTrackGradeMock: Omit<UserTrackGrade, 'gradeId'> = {
+const userTrackGradeMock: Create<UserTrackGrade> = {
   userId: '232113',
+  trackId: '1',
   grade: 5,
 }
 
@@ -23,40 +24,61 @@ describe('db userTrackGrade', () => {
   })
 
   afterEach(async () => {
-    await dropCollection(DbModel.UserTrackGrade)
+    await dropCollection(DbModelName.UserTrackGrade)
   })
 
   it('should create and read userTrackGrade', async () => {
     const returnedData = await userTrackGradeModel.create(userTrackGradeMock)
-    const readData = await userTrackGradeModel.read(returnedData.gradeId)
+    const readData = await userTrackGradeModel.read(returnedData?.id)
 
     expect(readData).not.toBe(null)
-    expect(readData?.equals(returnedData)).toBeTruthy()
+    expect(readData).toEqual(returnedData)
   })
 
   it('should delete userTrackGrade', async () => {
     const returnedData = await userTrackGradeModel.create(userTrackGradeMock)
-    const readData = await userTrackGradeModel.read(returnedData.gradeId)
+    const readData = await userTrackGradeModel.read(returnedData?.id)
 
     expect(readData).not.toBe(null)
-    expect(returnedData.gradeId).toEqual(readData?.gradeId)
-    await userTrackGradeModel.delete(readData?.gradeId)
+    expect(returnedData?.id).toEqual(readData?.id)
+    await userTrackGradeModel.delete(readData?.id)
 
-    const readAgainData = await userTrackGradeModel.read(returnedData.gradeId)
+    const readAgainData = await userTrackGradeModel.read(returnedData?.id)
     expect(readAgainData).toBeNull()
   })
 
   it('should update userTrackGrade', async () => {
     const returnedData = await userTrackGradeModel.create(userTrackGradeMock)
-    const gradeId = returnedData.gradeId
-    const readData = await userTrackGradeModel.read(gradeId)
+    const id = returnedData?.id
+    const readData = await userTrackGradeModel.read(id)
     const newGrade = 3
 
     expect(readData).not.toBe(null)
     expect(readData?.grade).toEqual(userTrackGradeMock.grade)
 
-    await userTrackGradeModel.update(gradeId, { grade: newGrade })
-    const newReadData = await userTrackGradeModel.read(gradeId)
+    await userTrackGradeModel.update(id, { grade: newGrade })
+    const newReadData = await userTrackGradeModel.read(id)
     expect(newReadData?.grade).toEqual(newGrade)
+  })
+
+  it('should calculate average track rating', async () => {
+    await userTrackGradeModel.create({
+      ...userTrackGradeMock,
+      trackId: '1',
+      grade: 5,
+    })
+    await userTrackGradeModel.create({
+      ...userTrackGradeMock,
+      trackId: '1',
+      grade: 4,
+    })
+    await userTrackGradeModel.create({
+      ...userTrackGradeMock,
+      trackId: '2',
+      grade: 5,
+    })
+
+    const avg = await userTrackGradeModel.getAverageRating('1')
+    expect(avg).toBe(4.5)
   })
 })

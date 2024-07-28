@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import 'dotenv/config'
 
-import { type DbModel } from '@types'
+import { type DbModelName } from '@types'
 
 import { serverDB } from './serverDB'
 
@@ -14,7 +14,7 @@ export const disconnectDBForTesting = async (): Promise<void> => {
 }
 
 export const dropCollection = async (
-  collectionName: DbModel
+  collectionName: DbModelName
 ): Promise<boolean> => {
   return await mongoose.connection.db.dropCollection(collectionName)
 }

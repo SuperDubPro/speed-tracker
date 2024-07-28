@@ -19,8 +19,7 @@ serverDB
   .then(async () => {
     console.log(`DB ${process.env.DB_URL} Connected Successfully`)
     try {
-      const data = await serverDB.createUserTrackGrade({
-        gradeId: 'ewewewe',
+      const data = await serverDB.userTrackGrade.create({
         userId: 'qwewer',
         grade: 3,
       })

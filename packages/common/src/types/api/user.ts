@@ -1,25 +1,26 @@
 import { type IdType } from './common'
 
 export enum UserRole {
-  user = 'user',
-  moderator = 'moderator',
-  admin = 'admin',
+  User = 'user',
+  Moderator = 'moderator',
+  Admin = 'admin',
 }
 
 export enum TeamRole {
-  manager = 'manager',
-  racer = 'racer',
+  Manager = 'manager',
+  Racer = 'racer',
 }
 
+export interface Team {
+  teamId: IdType
+  teamRole: TeamRole
+  users: IdType[]
+}
 export interface User {
-  // [IdKeys.mongoose]: IdType
-  id: string
+  id: IdType
   role: UserRole
   nickName: string
   name?: string
   surname?: string
-  teams?: Array<{ teamId: IdType; teamRole: TeamRole }>
+  teams?: IdType[]
 }
-
-// export type PostUser = Omit<User, IdKeys.mongoose>
-// export type PostUser = Omit<User, '_id'>

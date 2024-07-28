@@ -1,33 +1,35 @@
 import { type IdType } from './common'
 
 export enum TrackType {
-  kart = 'kart',
-  auto = 'auto',
-  universal = 'universal',
+  Kart = 'kart',
+  Auto = 'auto',
+  Universal = 'universal',
 }
 
 export enum TrackSurface {
-  asphalt = 'asphalt',
-  raceAsphalt = 'raceAsphalt',
-  concrete = 'concrete',
+  Asphalt = 'asphalt',
+  RaceAsphalt = 'raceAsphalt',
+  Concrete = 'concrete',
 }
 
 export interface TrackConfig {
-  img: string
+  id: IdType
+  imgs: string[]
   description?: string
   dateStart?: string
   dateEnd?: string
 }
 
 export interface TrackPhoto {
-  img: string
+  id: IdType
   description?: string
   date?: string
 }
 
 export interface UserTrackGrade {
-  gradeId: IdType
+  id: IdType
   userId: IdType
+  trackId: IdType
   grade: number
 }
 
@@ -39,25 +41,12 @@ export interface TrackRating {
 }
 
 export interface Track {
-  // [IdKeys.mongoose]: IdType
   id: IdType
   type: TrackType
   name: string
+  rating: TrackRating
   configs?: TrackConfig[]
   photos?: TrackPhoto[]
   description?: string
   surface?: TrackSurface
-  rating: TrackRating
 }
-
-// export type PostTrack = Omit<Track, IdKeys.mongoose>
-// export type PostTrack = Omit<Track, '_id'>
-
-// export const track: PostTrack = {
-//   name: 'MIKS',
-//   type: TrackType.kart,
-//   configs: [{ img: 'rgdjhgf-hjkg-wqF-WASFDGX-EFDSG' }],
-//   rating: {
-//     value: 0,
-//   },
-// }

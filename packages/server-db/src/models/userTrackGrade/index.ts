@@ -1,51 +1,37 @@
-import mongoose, { Schema } from 'mongoose'
+import { Schema } from 'mongoose'
 import { type IdType, type UserTrackGrade } from '@speed-tracker/common'
-import { DbModel, type MongooseSaveModel, type MongooseModel } from '@types'
-import { v4 as uuidv4 } from 'uuid'
+import { DbModelName } from '@types'
+import { BaseModel } from '../baseModel'
 
-class UserTrackGradeModel {
-  private readonly userTrackGradeScheme = new Schema<UserTrackGrade>({
-    gradeId: { type: String, required: true, unique: true },
-    userId: { type: String, required: true },
-    grade: { type: Number, required: true },
-  })
-
-  private readonly UserTrackGradeDBModel = mongoose.model<UserTrackGrade>(
-    DbModel.UserTrackGrade,
-    this.userTrackGradeScheme,
-    DbModel.UserTrackGrade
-  )
-
-  async create(
-    props: Omit<UserTrackGrade, 'gradeId'>
-  ): Promise<MongooseSaveModel<UserTrackGrade>> {
-    const instance = new this.UserTrackGradeDBModel({
-      ...props,
-      gradeId: uuidv4(),
+class UserTrackGradeModel extends BaseModel<
+  UserTrackGrade,
+  'userId' | 'trackId'
+> {
+  constructor() {
+    super({
+      dbModelName: DbModelName.UserTrackGrade,
+      schema: new Schema<UserTrackGrade>({
+        id: { type: String, required: true, unique: true },
+        userId: { type: String, required: true },
+        trackId: { type: String, required: true },
+        grade: { type: Number, required: true },
+      }),
     })
-    return await instance.save()
   }
 
-  async read(gradeId: IdType): Promise<MongooseModel<UserTrackGrade>> {
-    return await this.UserTrackGradeDBModel.findOne({ gradeId })
-  }
+  async getAverageRating(trackId: IdType): Promise<number | null> {
+    try {
+      const res = await this.DBModel.aggregate([
+        { $match: { trackId } },
+        { $group: { _id: null, average: { $avg: '$grade' } } },
+      ])
 
-  async update(
-    gradeId: IdType,
-    update: Omit<UserTrackGrade, 'gradeId' | 'userId'>
-  ): Promise<MongooseModel<UserTrackGrade>> {
-    return await this.UserTrackGradeDBModel.findOneAndUpdate(
-      { gradeId },
-      update
-    )
-  }
-
-  async delete(gradeId?: IdType): Promise<MongooseModel<UserTrackGrade>> {
-    if (gradeId === undefined) {
-      return null
+      return res?.[0]?.average ?? null
+    } catch (err) {
+      console.error('getAverageRating error\n', err)
     }
 
-    return await this.UserTrackGradeDBModel.findOneAndDelete({ gradeId })
+    return null
   }
 }
 
