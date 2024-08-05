@@ -3,6 +3,7 @@
 
 # API keys
 .env
+.env.keys
 
 # webstorm idea
 .idea/
@@ -12,3 +13,8 @@ package-lock.json
 dist
 coverage
 node_modules
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

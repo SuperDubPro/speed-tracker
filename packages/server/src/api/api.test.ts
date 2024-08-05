@@ -1,47 +1,53 @@
 import request from 'supertest'
-import { app } from '../app'
-import { TrackTypes, type PostTrack, type PostUser, UserRoles } from '../types'
+import { app } from '../server'
+import {
+  TrackType,
+  type Track,
+  type User,
+  UserRole,
+} from '@speed-tracker/common'
 
 describe('api', () => {
   it('should create track', async () => {
     // Given
-    const track: PostTrack = {
+    const track: Track = {
+      id: 'ewe3245324234234',
       name: 'MIKS',
-      type: TrackTypes.kart,
+      type: TrackType.kart,
       configs: [{ img: 'rgdjhgf-hjkg-wqF-WASFDGX-EFDSG' }],
       rating: {
-        value: 0
-      }
+        value: 0,
+        grades: [],
+      },
     }
     // When
-    const response = await request(app)
+    const response = request(app)
       .post('/tracks')
       .send(track)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
     // Then
-    response
-      .expect(200)
-      .expect(response.body)
-      .toEqual(track)
+    await response.expect(200).then((response) => {
+      expect(response.body).toEqual(track)
+    })
   })
 
   it('should create user', async () => {
     // Given
-    const user: PostUser = {
+    const user: User = {
+      id: '232322',
       nickName: 'Stasyao San',
-      role: UserRoles.user
+      role: UserRole.user,
     }
     // When
-    const response = await request(app)
+    const response = request(app)
       .post('/users')
       .send(user)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
     // Then
-    response
-      .expect(200)
-      .expect(response.body)
-      .toEqual(user)
+    await response.expect(200).then((response) => {
+      expect(response.body).toEqual(user)
+    })
   })
 })
