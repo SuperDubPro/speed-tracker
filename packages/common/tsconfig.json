@@ -1,8 +1,11 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-      "rootDir": "./",
       "outDir": "dist",
-      "paths": {}
+      "baseUrl": ".",
+      "paths": {
+        "@types": ["src/types/index"],
+        "@testData": ["src/testData/index"],
+      },
     },
   }

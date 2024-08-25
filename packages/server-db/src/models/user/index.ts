@@ -14,10 +14,10 @@ class UserModel extends BaseModel<User> {
           required: true,
           enum: [UserRole.Admin, UserRole.Moderator, UserRole.User],
         },
-        nickName: { type: String, required: true },
+        nickName: { type: String, required: true, unique: true },
         name: { type: String, required: false },
         surname: { type: String, required: false },
-        teams: { type: Array, required: false },
+        teams: { type: Array, required: false, default: undefined },
       }),
     })
   }

@@ -6,8 +6,10 @@ export enum DbModelName {
   Track = 'Track',
   TrackConfig = 'TrackConfig',
   TrackPhoto = 'TrackPhoto',
+  Team = 'Team',
   UserTrackGrade = 'UserTrackGrade',
   TrackRating = 'TrackRating',
+  LapTime = 'LapTime',
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types -- особенность типов mongoose, другие варианты пустого объекта не воспринимает

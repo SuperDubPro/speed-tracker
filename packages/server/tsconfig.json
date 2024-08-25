@@ -1,9 +1,11 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "rootDir": "src",
-      "outDir": "dist",
-      "paths": {}
-    },
-  }
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outFile": "./dist/build.js",
+    "baseUrl": ".",
+    "paths": {
+      "@api": ["src/api"],
+    }
+  },
+}
   

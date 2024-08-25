@@ -1,10 +1,14 @@
-import { type Create, type UserTrackGrade } from '@speed-tracker/common'
+import {
+  testData,
+  tstUserTrackGrade,
+  type Create,
+  type UserTrackGrade,
+} from '@speed-tracker/common'
 import {
   connectDBForTesting,
   disconnectDBForTesting,
   dropCollection,
 } from '@utils'
-import { DbModelName } from '@types'
 
 import { userTrackGradeModel } from '.'
 
@@ -24,15 +28,31 @@ describe('db userTrackGrade', () => {
   })
 
   afterEach(async () => {
-    await dropCollection(DbModelName.UserTrackGrade)
+    await dropCollection(userTrackGradeModel.dbModelName)
   })
 
   it('should create and read userTrackGrade', async () => {
-    const returnedData = await userTrackGradeModel.create(userTrackGradeMock)
+    const returnedData = await userTrackGradeModel.create(
+      // testData.userTrackGrade.create.data
+      tstUserTrackGrade
+    )
     const readData = await userTrackGradeModel.read(returnedData?.id)
 
     expect(readData).not.toBe(null)
     expect(readData).toEqual(returnedData)
+  })
+
+  it('should read all userTrackGrade', async () => {
+    const newMock: Create<UserTrackGrade> = {
+      ...userTrackGradeMock,
+      trackId: '2',
+    }
+    const returnedData1 = await userTrackGradeModel.create(userTrackGradeMock)
+    const returnedData2 = await userTrackGradeModel.create(newMock)
+    const readData = await userTrackGradeModel.readAll()
+
+    expect(readData).not.toBe(null)
+    expect(readData).toEqual([returnedData1, returnedData2])
   })
 
   it('should delete userTrackGrade', async () => {
