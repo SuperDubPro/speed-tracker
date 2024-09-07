@@ -3,7 +3,7 @@ import {
   connectDBForTesting,
   disconnectDBForTesting,
   dropCollection,
-} from '@utils'
+} from '@/utils'
 
 import { teamModel } from '.'
 

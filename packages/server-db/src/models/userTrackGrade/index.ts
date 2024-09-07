@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 import { type IdType, type UserTrackGrade } from '@speed-tracker/common'
-import { DbModelName } from '@types'
+import { DbModelName } from '@/types'
 import { BaseModel } from '../baseModel'
 
 class UserTrackGradeModel extends BaseModel<

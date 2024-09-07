@@ -1,8 +1,7 @@
 import mongoose from 'mongoose'
 import 'dotenv/config'
 
-import { type DbModelName } from '@types'
-
+import { type DbModelName } from '@/types'
 import {
   userModel,
   userTrackGradeModel,
@@ -11,7 +10,7 @@ import {
   trackPhotoModel,
   teamModel,
   lapTimeModel,
-} from './models'
+} from '@/models'
 
 class ServerDB {
   private db: typeof mongoose | null = null
@@ -76,7 +75,9 @@ class TestDB {
   }
 
   async dropCollection(collectionName: DbModelName): Promise<boolean> {
-    return await mongoose.connection.db.dropCollection(collectionName)
+    return (
+      (await mongoose.connection.db?.dropCollection(collectionName)) ?? false
+    )
   }
 }
 

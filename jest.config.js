@@ -8,6 +8,7 @@ const serverDbPackage = require('./packages/server-db/package.json')
 process.env.NODE_ENV = 'UNITTEST'
 
 module.exports = {
+  globalSetup: path.resolve(__dirname, './jest/globalSetup.js'),
   projects: [
     {
       testEnvironment: 'node',
@@ -26,7 +27,6 @@ module.exports = {
         ],
       },
       clearMocks: true,
-      setupFiles: ['<rootDir>/test/jestSetup.ts'],
     },
     {
       testEnvironment: 'node',
@@ -45,7 +45,6 @@ module.exports = {
         ],
       },
       clearMocks: true,
-      setupFiles: ['<rootDir>/test/jestSetup.ts'],
     },
     {
       testEnvironment: 'node',
@@ -64,7 +63,6 @@ module.exports = {
         ],
       },
       clearMocks: true,
-      setupFiles: ['<rootDir>/test/jestSetup.ts'],
     },
   ],
 }

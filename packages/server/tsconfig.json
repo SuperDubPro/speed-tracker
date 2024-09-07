@@ -1,11 +1,17 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outFile": "./dist/build.js",
-    "baseUrl": ".",
+    // "noEmit": true,
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
     "paths": {
-      "@api": ["src/api"],
-    }
+      "@/*": ["src/*"]
+    },
   },
+  "references": [
+    { "path": "../server-db" },
+    { "path": "../common" },
+  ],
+  "include": ["./src/**/*"]
 }
-  

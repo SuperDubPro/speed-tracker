@@ -1,16 +1,16 @@
 {
   "name": "speed-tracker",
-  "workspaces": [
-    "packages/*",
-    "packages/@speed-tracker/client"
-  ],
+  "workspaces": ["packages/*"],
   "version": "0.1.0",
   "description": "track your speed on track =)",
   "scripts": {
-    "build": "tsc",
+    "transpile": "run-p transpile:common transpile:server transpile:server-db",
     "start": "run-p start:server",
     "start:server": "npm run start --workspace @speed-tracker/server",
-    "test": "jest --config=jest.config.js"
+    "transpile:common": "npm run transpile --workspace @speed-tracker/common",
+    "transpile:server": "npm run transpile --workspace @speed-tracker/server",
+    "transpile:server-db": "npm run transpile --workspace @speed-tracker/server-db",
+    "test": "jest --config=jest.config.js --conditions=development"
   },
   "repository": {
     "type": "git",

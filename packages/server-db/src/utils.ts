@@ -1,7 +1,7 @@
 import type mongoose from 'mongoose'
 import 'dotenv/config'
 
-import { type DbModelName } from '@types'
+import { type DbModelName } from '@/types'
 
 import { serverDB } from './serverDB'
 

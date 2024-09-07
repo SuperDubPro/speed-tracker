@@ -1,6 +1,5 @@
 import {
   testData,
-  tstUserTrackGrade,
   type Create,
   type UserTrackGrade,
 } from '@speed-tracker/common'
@@ -8,7 +7,7 @@ import {
   connectDBForTesting,
   disconnectDBForTesting,
   dropCollection,
-} from '@utils'
+} from '@/utils'
 
 import { userTrackGradeModel } from '.'
 
@@ -33,8 +32,7 @@ describe('db userTrackGrade', () => {
 
   it('should create and read userTrackGrade', async () => {
     const returnedData = await userTrackGradeModel.create(
-      // testData.userTrackGrade.create.data
-      tstUserTrackGrade
+      testData.userTrackGrade.create.data
     )
     const readData = await userTrackGradeModel.read(returnedData?.id)
 

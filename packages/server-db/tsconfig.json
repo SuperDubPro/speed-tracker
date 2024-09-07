@@ -1,11 +1,15 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
     "paths": {
-      "@models": ["src/models/index"],
-      "@types": ["src/types"],
-      "@utils": ["src/utils"],
+      "@/*": ["src/*"]
     },
   },
+  "references": [
+    {"path": "../common"},
+  ],
+  "include": ["./**/*"]
 }

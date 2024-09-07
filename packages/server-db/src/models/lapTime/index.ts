@@ -5,7 +5,7 @@ import {
   type LapConditions,
   type LapTime,
 } from '@speed-tracker/common'
-import { DbModelName } from '@types'
+import { DbModelName } from '@/types'
 import { BaseModel } from '../baseModel'
 
 const conditionsSchema = new Schema<LapConditions>(

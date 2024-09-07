@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions -- потому что типизация mongoose говно */
 import mongoose, { type Schema, type FilterQuery, type AnyKeys } from 'mongoose'
 import { type Create, type IdType } from '@speed-tracker/common'
-import { type DbModelName } from '@types'
+import { type DbModelName } from '@/types'
 import { v4 as uuidv4 } from 'uuid'
 
 interface Props<Model> {
