@@ -11,16 +11,16 @@ export enum TeamRole {
   Racer = 'racer',
 }
 
-export interface Team {
-  teamId: IdType
+export interface TeamInfo {
+  id: IdType
   teamRole: TeamRole
-  users: IdType[]
 }
+
 export interface User {
   id: IdType
   role: UserRole
   nickName: string
   name?: string
   surname?: string
-  teams?: IdType[]
+  teams?: TeamInfo[]
 }

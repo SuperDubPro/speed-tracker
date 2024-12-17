@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 import { type TrackPhoto } from '@speed-tracker/common'
-import { DbModelName } from '@types'
+import { DbModelName } from '@/types'
 import { BaseModel } from '../baseModel'
 
 class TrackPhotoModel extends BaseModel<TrackPhoto> {

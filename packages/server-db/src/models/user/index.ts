@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 import { UserRole, type User } from '@speed-tracker/common'
-import { DbModelName } from '@types'
+import { DbModelName } from '@/types'
 import { BaseModel } from '../baseModel'
 
 class UserModel extends BaseModel<User> {
@@ -14,10 +14,10 @@ class UserModel extends BaseModel<User> {
           required: true,
           enum: [UserRole.Admin, UserRole.Moderator, UserRole.User],
         },
-        nickName: { type: String, required: true },
+        nickName: { type: String, required: true, unique: true },
         name: { type: String, required: false },
         surname: { type: String, required: false },
-        teams: { type: Array, required: false },
+        teams: { type: Array, required: false, default: undefined },
       }),
     })
   }

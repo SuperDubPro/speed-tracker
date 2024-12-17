@@ -1,9 +1,17 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "rootDir": "src",
-      "outDir": "dist",
-      "paths": {}
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // "noEmit": true,
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "paths": {
+      "@/*": ["src/*"]
     },
-  }
-  
+  },
+  "references": [
+    { "path": "../server-db" },
+    { "path": "../common" },
+  ],
+  "include": ["./src/**/*"]
+}

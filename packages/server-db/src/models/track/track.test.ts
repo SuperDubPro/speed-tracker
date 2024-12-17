@@ -3,8 +3,7 @@ import {
   connectDBForTesting,
   disconnectDBForTesting,
   dropCollection,
-} from '@utils'
-import { DbModelName } from '@types'
+} from '@/utils'
 
 import { trackModel } from '.'
 
@@ -27,7 +26,7 @@ describe('db track', () => {
   })
 
   afterEach(async () => {
-    await dropCollection(DbModelName.Track)
+    await dropCollection(trackModel.dbModelName)
   })
 
   it('should create and read track', async () => {
@@ -36,6 +35,19 @@ describe('db track', () => {
 
     expect(readData).not.toBe(null)
     expect(readData).toEqual(returnedData)
+  })
+
+  it('should read all track', async () => {
+    const newMock: Create<Track> = {
+      ...trackMock,
+      description: 'www',
+    }
+    const returnedData1 = await trackModel.create(trackMock)
+    const returnedData2 = await trackModel.create(newMock)
+    const readData = await trackModel.readAll()
+
+    expect(readData).not.toBe(null)
+    expect(readData).toEqual([returnedData1, returnedData2])
   })
 
   it('should delete track', async () => {

@@ -16,7 +16,9 @@ export interface TrackConfig {
   id: IdType
   imgs: string[]
   description?: string
+  /** Дата начала конфига */
   dateStart?: string
+  /** Дата конца конфига */
   dateEnd?: string
 }
 

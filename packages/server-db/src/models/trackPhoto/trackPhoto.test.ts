@@ -3,8 +3,7 @@ import {
   connectDBForTesting,
   disconnectDBForTesting,
   dropCollection,
-} from '@utils'
-import { DbModelName } from '@types'
+} from '@/utils'
 
 import { trackPhotoModel } from '.'
 
@@ -22,7 +21,7 @@ describe('db trackPhoto', () => {
   })
 
   afterEach(async () => {
-    await dropCollection(DbModelName.TrackConfig)
+    await dropCollection(trackPhotoModel.dbModelName)
   })
 
   it('should create and read trackPhoto', async () => {
@@ -31,6 +30,19 @@ describe('db trackPhoto', () => {
 
     expect(readData).not.toBe(null)
     expect(readData).toEqual(returnedData)
+  })
+
+  it('should read all trackPhoto', async () => {
+    const newMock: Create<TrackPhoto> = {
+      ...trackMock,
+      description: 'www',
+    }
+    const returnedData1 = await trackPhotoModel.create(trackMock)
+    const returnedData2 = await trackPhotoModel.create(newMock)
+    const readData = await trackPhotoModel.readAll()
+
+    expect(readData).not.toBe(null)
+    expect(readData).toEqual([returnedData1, returnedData2])
   })
 
   it('should delete trackPhoto', async () => {

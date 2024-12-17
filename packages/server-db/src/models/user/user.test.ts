@@ -3,8 +3,7 @@ import {
   connectDBForTesting,
   disconnectDBForTesting,
   dropCollection,
-} from '@utils'
-import { DbModelName } from '@types'
+} from '@/utils'
 
 import { userModel } from '.'
 
@@ -23,7 +22,7 @@ describe('db user', () => {
   })
 
   afterEach(async () => {
-    await dropCollection(DbModelName.User)
+    await dropCollection(userModel.dbModelName)
   })
 
   it('should create and read user', async () => {
@@ -32,6 +31,19 @@ describe('db user', () => {
 
     expect(readData).not.toBe(null)
     expect(readData).toEqual(returnedData)
+  })
+
+  it('should read all user', async () => {
+    const newMock: Create<User> = {
+      ...userMock,
+      nickName: 'trololo',
+    }
+    const returnedData1 = await userModel.create(userMock)
+    const returnedData2 = await userModel.create(newMock)
+    const readData = await userModel.readAll()
+
+    expect(readData).not.toBe(null)
+    expect(readData).toEqual([returnedData1, returnedData2])
   })
 
   it('should delete user', async () => {

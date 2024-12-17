@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention -- для удаления __v */
 /* eslint-disable @typescript-eslint/consistent-type-assertions -- потому что типизация mongoose говно */
-import mongoose, { type Schema, type FilterQuery } from 'mongoose'
-import { type IdType } from '@speed-tracker/common'
-import { type DbModelName } from '@types'
+import mongoose, { type Schema, type FilterQuery, type AnyKeys } from 'mongoose'
+import { type Create, type IdType } from '@speed-tracker/common'
+import { type DbModelName } from '@/types'
 import { v4 as uuidv4 } from 'uuid'
 
-interface Props<Model extends object> {
+interface Props<Model> {
   schema: Schema<Model, mongoose.Model<Model>>
   dbModelName: DbModelName
   idKey?: keyof Model
@@ -13,20 +13,22 @@ interface Props<Model extends object> {
 
 /** Базовый класс для работы с бд. Реализация CRUD операций */
 export class BaseModel<
-  M extends { id: IdType } & object,
+  M extends { id: IdType },
   ConstKeys extends keyof M = never,
 > {
   private readonly schema: Schema<M, mongoose.Model<M>>
   protected readonly DBModel: mongoose.Model<M>
   private readonly idKey: keyof M
+  readonly dbModelName: DbModelName
 
   constructor({ schema, dbModelName, idKey = 'id' }: Props<M>) {
     this.schema = schema
     this.DBModel = mongoose.model<M>(dbModelName, schema, dbModelName)
     this.idKey = idKey
+    this.dbModelName = dbModelName
   }
 
-  async create(props: Omit<M, typeof this.idKey>): Promise<M | null> {
+  async create(props: Create<M>): Promise<M | null> {
     const instance = new this.DBModel({
       ...props,
       [this.idKey]: uuidv4(),
@@ -35,7 +37,7 @@ export class BaseModel<
       const doc = await instance.save()
       const obj = (doc?.toObject() ?? {}) as { _id: unknown; __v?: unknown } & M
       const { _id, __v, ...model } = obj
-      return model as M
+      return model as unknown as M
     } catch (err) {
       console.error('create error\n', err)
     }
@@ -57,9 +59,18 @@ export class BaseModel<
     return null
   }
 
+  async readAll(): Promise<M[]> {
+    try {
+      return (await this.DBModel.find({}).lean().select('-_id -__v')) as M[]
+    } catch (err) {
+      console.error(err)
+    }
+    return []
+  }
+
   async update(
     id?: IdType,
-    update?: Partial<Exclude<M, typeof this.idKey | ConstKeys>>
+    update?: Partial<Omit<M, 'id' | ConstKeys>>
   ): Promise<M | null> {
     if (id === undefined || update === undefined) {
       return null
@@ -70,10 +81,14 @@ export class BaseModel<
     } as FilterQuery<M>
 
     try {
-      const doc = await this.DBModel.findOneAndUpdate(filter, update, {
-        lean: true,
-        new: true,
-      })
+      const doc = await this.DBModel.findOneAndUpdate(
+        filter,
+        update as AnyKeys<M>,
+        {
+          lean: true,
+          new: true,
+        }
+      )
         .lean()
         .select('-_id -__v')
       return doc as M | null
