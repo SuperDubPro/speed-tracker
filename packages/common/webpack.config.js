@@ -8,6 +8,10 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const config = {
   entry: './index.ts',
   devtool: 'inline-source-map',
+  devServer: {
+    static: './build',
+    hot: true,
+  },
   module: {
     rules: [
       {
@@ -24,6 +28,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
+    clean: true,
     // library: {
     //   type: 'module',
     // },

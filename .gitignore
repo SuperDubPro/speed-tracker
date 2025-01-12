@@ -19,3 +19,11 @@ build
 .flaskenv*
 !.env.project
 !.env.vault
+
+
+.nx/
+
+
+
+.nx/cache
+.nx/workspace-data

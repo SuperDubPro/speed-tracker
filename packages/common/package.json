@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "exports": {
-    ".": "./index.ts",
-    "./dist": "./dist/index.js"
+    ".": "./dist/index.js"
   },
   "scripts": {
     "build": "webpack --mode development",
+    "serve": "webpack serve --mode development",
     "test": "jest",
     "transpile": "tsc -b"
   },

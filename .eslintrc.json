@@ -15,6 +15,5 @@
         "@typescript-eslint/no-unused-vars": "warn",
         "@typescript-eslint/no-non-null-assertion": "warn"
     },
-    "plugins": ["prettier"],
-    "ignores": ["jest.config.js"]
+    "plugins": ["prettier"]
 }
